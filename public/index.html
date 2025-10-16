@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>GPT-5-mini Proxy Demo</title>
+    <style>body{font-family:Arial;padding:20px}textarea{width:100%;height:120px}</style>
+  </head>
+  <body>
+    <h1>GPT-5-mini Proxy Demo</h1>
+    <p>Enter a prompt and click Generate.</p>
+    <textarea id="prompt">Write a short poem about code.</textarea>
+    <div>
+      <input id="clientSecret" placeholder="Client secret (if required)" />
+      <button id="go">Generate</button>
+    </div>
+    <pre id="out"></pre>
+
+    <script>
+      document.getElementById('go').addEventListener('click', async ()=>{
+        const prompt = document.getElementById('prompt').value;
+        const client_secret = document.getElementById('clientSecret').value || undefined;
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, client_secret })
+        });
+        const data = await res.json();
+        document.getElementById('out').textContent = JSON.stringify(data, null, 2);
+      });
+    </script>
+  </body>
+</html>
