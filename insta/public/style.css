@@ -1,0 +1,4 @@
+body{font-family:Arial;margin:0;padding:12px}
+header{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+article{border-bottom:1px solid #eee;padding:12px 0}
+img{max-width:100%}
