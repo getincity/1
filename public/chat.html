@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Practice Chat Assistant</title>
+    <style>body{font-family:Arial;padding:20px}#messages{border:1px solid #ddd;padding:10px;height:300px;overflow:auto;margin-bottom:10px}input,textarea{width:100%;box-sizing:border-box}</style>
+  </head>
+  <body>
+    <h1>Practice Chat Assistant</h1>
+    <p>Use this assistant to practice friendly, respectful conversation starters and replies. Do not use to harass or deceive people.</p>
+    <div id="messages"></div>
+    <textarea id="text" placeholder="Type your message..."></textarea>
+    <button id="send">Send</button>
+
+    <script>
+      const messagesEl = document.getElementById('messages');
+      const textEl = document.getElementById('text');
+      const send = document.getElementById('send');
+
+      let messages = [{role:'system', content:'You are a friendly assistant that helps the user practice polite, respectful conversation.'}];
+
+      function render(){
+        messagesEl.innerHTML = messages.map(m=>`<div><strong>${m.role}</strong>: ${m.content}</div>`).join('');
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      send.addEventListener('click', async ()=>{
+        const text = textEl.value.trim(); if(!text) return;
+        messages.push({role:'user', content:text});
+        render(); textEl.value='';
+
+        const resp = await fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({messages})});
+        const data = await resp.json();
+        const reply = (data.output && data.output[0] && data.output[0].content) || JSON.stringify(data);
+        messages.push({role:'assistant', content:reply});
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
