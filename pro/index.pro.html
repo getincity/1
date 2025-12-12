@@ -45,7 +45,8 @@
 <body>
   <main class="wrapper">
     <header class="hero">
-      <img class="logo" src="assets/logo-pro.svg" alt="SK AYAAN logo">
+      <!-- Profile image: uses profile.jpg if present, falls back to logo-pro.svg -->
+      <img id="profileImg" class="logo" src="assets/profile.jpg" alt="Profile" onerror="this.onerror=null;this.src='assets/logo-pro.svg'">
       <h1 class="name">@sk_ayaan99</h1>
       <p class="tagline">Connect with me on social</p>
     </header>
